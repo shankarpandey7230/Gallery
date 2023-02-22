@@ -11,7 +11,7 @@ function getElement(selection) {
 
 //constructor function
 function Gallery(element) {
-  this.conatiner = element;
+  this.container = element;
   //   console.log(element);
   this.list = [...element.querySelectorAll(".img")];
   //   console.log(this.list);
@@ -30,7 +30,7 @@ function Gallery(element) {
   //bind functions
   //   this.openModal = this.openModal.bind(this);
   //container event
-  this.conatiner.addEventListener(
+  this.container.addEventListener(
     "click",
     function (e) {
       //   console.log(this);
