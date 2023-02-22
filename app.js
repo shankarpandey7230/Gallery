@@ -25,6 +25,7 @@ function Gallery(element) {
   this.closeModal = this.closeModal.bind(this);
   this.nextImage = this.nextImage.bind(this);
   this.prevImage = this.prevImage.bind(this);
+  this.chooseImage = this.chooseImage.bind(this);
 
   //   let self = this;
   //bind functions
@@ -59,6 +60,8 @@ Gallery.prototype.openModal = function (selectedImage, list) {
   this.nextBtn.addEventListener("click", this.nextImage);
 
   this.prevBtn.addEventListener("click", this.prevImage);
+
+  this.modalImages.addEventListener("click", this.chooseImage);
 };
 Gallery.prototype.setMainImage = function (selectedImage) {
   this.modalImg.src = selectedImage.src;
@@ -72,10 +75,34 @@ Gallery.prototype.closeModal = function () {
   this.nextBtn.removeEventListener("click", this.nextImage);
 
   this.prevBtn.removeEventListener("click", this.prevImage);
-};
-Gallery.prototype.nextImage = function () {};
-Gallery.prototype.prevImage = function () {};
 
+  this.modalImages.removeEventListener("click", this.chooseImage);
+};
+Gallery.prototype.nextImage = function () {
+  const selected = this.modalImages.querySelector(".selected");
+  const next =
+    selected.nextElementSibling || this.modalImages.firstElementChild;
+  selected.classList.remove("selected");
+  next.classList.add("selected");
+  this.setMainImage(next);
+};
+Gallery.prototype.prevImage = function () {
+  const selected = this.modalImages.querySelector(".selected");
+  const prev =
+    selected.previousElementSibling || this.modalImages.lastElementChild;
+  selected.classList.remove("selected");
+  prev.classList.add("selected");
+  this.setMainImage(prev);
+};
+Gallery.prototype.chooseImage = function (e) {
+  if (e.target.classList.contains("modal-img")) {
+    // console.log(e.target);
+    const selected = this.modalImages.querySelector(".selected");
+    selected.classList.remove("selected");
+    this.setMainImage(e.target);
+    e.target.classList.add("selected");
+  }
+};
 //instances
 const nature = new Gallery(getElement(".nature"));
 const city = new Gallery(getElement(".city"));
